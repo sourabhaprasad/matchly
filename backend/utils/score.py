@@ -86,19 +86,23 @@ def get_skill_match(jd: str, resume: str, jd_skills: list[str]) -> dict:
 
     normalized_resume = normalize_text(resume)
     resume_keywords = extract_skill_phrases(normalized_resume)
+    resume_context = " ".join(resume_keywords)
 
     for skill in jd_skills:
         normalized_skill = normalize_text(skill)
 
-        resume_context = " ".join(resume_keywords)
+        keyword_match = keyword_overlap_match(resume_context, normalized_skill)
+        semantic_match = semantic_similarity_match(resume_context, normalized_skill)
 
-        if (
-            keyword_overlap_match(resume_context, normalized_skill) or
-            semantic_similarity_match(resume_context, normalized_skill)
-        ):
+        if keyword_match or semantic_match:
             matched.append(skill)
         else:
             missing.append(skill)
 
     score = round(len(matched) / len(jd_skills), 2) if jd_skills else 0.0
-    return {"score": score, "matched": matched, "missing": missing}
+    return {
+        "score": score,
+        "matched": matched,
+        "missing": missing,
+        "potential": matched + missing
+    }

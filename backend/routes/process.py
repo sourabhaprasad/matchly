@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, Form, File
 from typing import Optional
 from services.extractor import get_text_or_file, extract_skills_from_jd
 from services.embedder import embed_text
-from utils.score import get_skill_match  
+from utils.score import get_skill_match
 from services.prompt import generate_cover_letter
 
 router = APIRouter()
@@ -17,18 +17,15 @@ async def process_resume(
     job_title: str = Form(""),
     hiring_manager: Optional[str] = Form(None),
 ):
-    resume = get_text_or_file(resume_file, resume_text)
     jd = get_text_or_file(jd_file, jd_text)
+    resume = get_text_or_file(resume_file, resume_text)
 
     embed_text(resume, "resume")
     embed_text(jd, "jd")
 
     skill_list = extract_skills_from_jd(jd)
-
-    # Fuzzy match resume vs extracted skills
     skill_result = get_skill_match(jd, resume, skill_list)
 
-    # Generate cover letter
     cover_letter = generate_cover_letter(
         jd=jd,
         resume=resume,
@@ -41,6 +38,7 @@ async def process_resume(
         "score": skill_result["score"],
         "matched": skill_result["matched"],
         "missing": skill_result["missing"],
+        "suggested": skill_result.get("suggested", []),
         "skills_extracted": skill_list,
         "cover_letter": cover_letter
     }
