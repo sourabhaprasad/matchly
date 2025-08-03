@@ -143,10 +143,7 @@ Accepts multipart `FormData` and returns match results and a generated cover let
 
 ## UI Preview
 
-> Add screenshots under `/public/screenshots/`
-> Suggested: Upload screen, Match result, Cover letter display
-
----
+<!-- TODO--- -->
 
 ## Development Tips
 
