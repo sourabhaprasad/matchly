@@ -13,16 +13,33 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 
-export default function SettingsPanel() {
+type SettingsPanelProps = {
+  onGenerate: () => void;
+  settings: {
+    includeMatched: boolean;
+    includeUnmatched: boolean;
+    includeSummary: boolean;
+    tone: string;
+  };
+  onToggle: (key: keyof SettingsPanelProps["settings"]) => void;
+  onToneChange: (value: string) => void;
+};
+
+export default function SettingsPanel({
+  onGenerate,
+  settings,
+  onToggle,
+  onToneChange,
+}: SettingsPanelProps) {
   return (
     <Card>
-      <CardContent className="space-y-6 p-4">
+      <CardContent className="space-y-6 p-4 border-none">
         <h2 className="text-lg font-semibold">Generation Settings</h2>
 
         {/* Tone Selector */}
         <div className="space-y-2">
           <Label htmlFor="tone">Tone</Label>
-          <Select>
+          <Select value={settings.tone} onValueChange={onToneChange}>
             <SelectTrigger id="tone">
               <SelectValue placeholder="Select tone for cover letter" />
             </SelectTrigger>
@@ -39,23 +56,35 @@ export default function SettingsPanel() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <Label htmlFor="matched-skills">Include Matched Skills</Label>
-            <Switch id="matched-skills" />
+            <Switch
+              id="matched-skills"
+              checked={settings.includeMatched}
+              onCheckedChange={() => onToggle("includeMatched")}
+            />
           </div>
 
           <div className="flex items-center justify-between">
             <Label htmlFor="unmatched-skills">Include Unmatched Skills</Label>
-            <Switch id="unmatched-skills" />
+            <Switch
+              id="unmatched-skills"
+              checked={settings.includeUnmatched}
+              onCheckedChange={() => onToggle("includeUnmatched")}
+            />
           </div>
 
           <div className="flex items-center justify-between">
             <Label htmlFor="include-summary">Include Summary</Label>
-            <Switch id="include-summary" />
+            <Switch
+              id="include-summary"
+              checked={settings.includeSummary}
+              onCheckedChange={() => onToggle("includeSummary")}
+            />
           </div>
         </div>
 
         {/* Generate Button */}
         <div className="pt-4">
-          <Button className="w-full">
+          <Button className="w-full" onClick={onGenerate}>
             <Sparkles className="mr-2 h-4 w-4" />
             Generate Cover Letter
           </Button>

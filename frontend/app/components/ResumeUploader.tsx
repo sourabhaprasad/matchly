@@ -1,27 +1,50 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Upload, Loader2 } from "lucide-react";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
 
-export default function ResumeUploader() {
-  const [inputMethod, setInputMethod] = useState<"file" | "text">("file");
-  const [resumeText, setResumeText] = useState("");
-  const [fileName, setFileName] = useState("");
+interface ResumeUploaderProps {
+  file: File | null;
+  setFile: (f: File | null) => void;
+  text: string;
+  setText: (t: string) => void;
+}
+
+export default function ResumeUploader({
+  file,
+  setFile,
+  text,
+  setText,
+}: ResumeUploaderProps) {
+  const [inputMethod, setInputMethod] = useState<"file" | "text">(
+    file ? "file" : "text"
+  );
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles.length > 0) {
-      const file = acceptedFiles[0];
-      setFileName(file.name);
-      setResumeText(""); // clear pasted text if file is uploaded
+  useEffect(() => {
+    setSubmitted(false);
+    if (inputMethod === "file") {
+      setText("");
+    } else {
+      setFile(null);
     }
-  }, []);
+  }, [inputMethod, setFile, setText]);
+
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (acceptedFiles.length > 0) {
+        setFile(acceptedFiles[0]);
+        setText("");
+        setSubmitted(false);
+      }
+    },
+    [setFile, setText]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -37,30 +60,24 @@ export default function ResumeUploader() {
 
   const handleSubmit = async () => {
     setLoading(true);
-    // Simulate a delay or parsing step
     await new Promise((res) => setTimeout(res, 2000));
     setLoading(false);
     setSubmitted(true);
   };
 
   const isValid =
-    (inputMethod === "text" && resumeText.trim() !== "") ||
-    (inputMethod === "file" && fileName !== "");
+    (inputMethod === "text" && text.trim() !== "") ||
+    (inputMethod === "file" && file !== null);
 
   return (
-    <div className="bg-white p-5 rounded-xl shadow-sm border space-y-5">
+    <div className="space-y-3 p-5">
       <h2 className="text-lg font-semibold">Upload Your Resume</h2>
 
       <div className="grid grid-cols-2 gap-2 bg-muted p-1 rounded-full shadow-inner w-full">
         {["file", "text"].map((method) => (
           <button
             key={method}
-            onClick={() => {
-              setInputMethod(method as "file" | "text");
-              setResumeText("");
-              setFileName("");
-              setSubmitted(false);
-            }}
+            onClick={() => setInputMethod(method as "file" | "text")}
             className={cn(
               "w-full px-4 py-2 rounded-full text-sm font-medium transition-all",
               inputMethod === method
@@ -82,14 +99,14 @@ export default function ResumeUploader() {
           )}
         >
           <input {...getInputProps()} />
-          <Upload className="mx-auto mb-2 h-6 w-6 text-muted-foreground" />
-          {fileName ? (
-            <p className="text-sm font-medium">{fileName}</p>
+          <Upload className="mx-auto mb-2 h-12 w-6 text-muted-foreground" />
+          {file ? (
+            <p className="text-sm font-medium">{file.name}</p>
           ) : (
             <>
               <p className="text-sm">Drag and drop or click to upload</p>
               <p className="text-xs text-muted-foreground mt-1">
-                Supports .doc, .docx, .pdf (max 50 MB)
+                Supports .doc, .docx, .pdf (max 10 MB)
               </p>
             </>
           )}
@@ -97,8 +114,11 @@ export default function ResumeUploader() {
       ) : (
         <Textarea
           placeholder="Paste your complete resume content here..."
-          value={resumeText}
-          onChange={(e) => setResumeText(e.target.value)}
+          value={text}
+          onChange={(e) => {
+            setText(e.target.value);
+            setSubmitted(false);
+          }}
           className="min-h-[150px]"
         />
       )}
@@ -111,7 +131,7 @@ export default function ResumeUploader() {
               Saving...
             </>
           ) : (
-            "Save"
+            "Confirm Input"
           )}
         </Button>
       </div>

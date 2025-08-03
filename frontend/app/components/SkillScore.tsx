@@ -8,12 +8,27 @@ interface SkillScoreProps {
 
 export default function SkillScore({ matchPercentage }: SkillScoreProps) {
   let badgeLabel: string;
+  let badgeClass: string;
+  let summaryText: string;
+
   if (matchPercentage >= 80) {
     badgeLabel = "Excellent Match";
+    badgeClass = "bg-green-100 text-green-800";
+    summaryText = "Your resume strongly aligns with the job requirements.";
   } else if (matchPercentage >= 60) {
     badgeLabel = "Good Match";
+    badgeClass = "bg-yellow-100 text-yellow-800";
+    summaryText = "Your resume aligns with several key job requirements.";
+  } else if (matchPercentage >= 40) {
+    badgeLabel = "Moderate Match";
+    badgeClass = "bg-orange-100 text-orange-800";
+    summaryText =
+      "Your resume has partial alignment with the job requirements.";
   } else {
-    badgeLabel = "Needs Improvement";
+    badgeLabel = "Low Match";
+    badgeClass = "bg-red-100 text-red-800";
+    summaryText =
+      "Your resume shows limited alignment with the job requirements.";
   }
 
   return (
@@ -24,16 +39,16 @@ export default function SkillScore({ matchPercentage }: SkillScoreProps) {
       </div>
 
       <div className="flex items-center justify-between">
-        <p className="text-2xl font-bold">{matchPercentage}%</p>
-        <Badge className="bg-green-100 text-green-700 text-sm font-medium px-3 py-1 rounded-full">
+        <p className="text-2xl font-bold">{matchPercentage.toFixed(2)}%</p>
+        <Badge
+          className={`${badgeClass} text-sm font-medium px-3 py-1 rounded-full`}
+        >
           {badgeLabel}
         </Badge>
       </div>
 
       <Progress value={matchPercentage} className="h-3 bg-gray-200" />
-      <p className="text-gray-600 text-sm">
-        Your resume shows strong alignment with the job requirements
-      </p>
+      <p className="text-gray-600 text-sm">{summaryText}</p>
     </div>
   );
 }

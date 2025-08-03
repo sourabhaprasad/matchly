@@ -1,15 +1,48 @@
 "use client";
 
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { FileText } from "lucide-react";
-import { useState } from "react";
+import { FileText, Check, Download } from "lucide-react";
+import { toast } from "sonner";
+import jsPDF from "jspdf";
 
-export default function CoverLetterOutput() {
-  const [coverLetter, setCoverLetter] = useState("");
+interface CoverLetterOutputProps {
+  text: string;
+}
 
-  const isEmpty = coverLetter.trim() === "";
+export default function CoverLetterOutput({ text }: CoverLetterOutputProps) {
+  const [copied, setCopied] = useState(false);
+
+  const isEmpty = text.trim() === "";
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      toast.success("Copied to clipboard!");
+      setTimeout(() => setCopied(false), 1500);
+    } catch (err) {
+      console.error("Copy failed", err);
+      toast.error("Failed to copy");
+    }
+  };
+
+  const handleDownload = () => {
+    const doc = new jsPDF();
+    const marginLeft = 20;
+    const marginTop = 20;
+    const maxLineWidth = 170;
+
+    doc.setFont("Times", "Normal");
+    doc.setFontSize(12);
+
+    const lines = doc.splitTextToSize(text, maxLineWidth);
+    doc.text(lines, marginLeft, marginTop);
+
+    doc.save("cover_letter.pdf");
+  };
 
   return (
     <Card>
@@ -31,10 +64,16 @@ export default function CoverLetterOutput() {
           </div>
         ) : (
           <>
-            <Textarea value={coverLetter} readOnly className="min-h-[200px]" />
+            <Textarea value={text} readOnly className="min-h-[200px]" />
             <div className="flex gap-2 justify-end">
-              <Button variant="secondary">Copy</Button>
-              <Button>Download PDF</Button>
+              <Button onClick={handleCopy} variant="secondary">
+                {copied ? <Check className="h-4 w-4 mr-1" /> : null}
+                {copied ? "Copied" : "Copy"}
+              </Button>
+              <Button onClick={handleDownload}>
+                <Download className="h-4 w-4 mr-1" />
+                Download PDF
+              </Button>
             </div>
           </>
         )}
