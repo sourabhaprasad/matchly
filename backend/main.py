@@ -1,14 +1,13 @@
 from fastapi import FastAPI
-from chroma_client import collection
+from routes import process  # Make sure this import path is correct
+from fastapi import UploadFile, File, Form
 
 app = FastAPI()
 
-@app.get("/test-chroma")
-def test_chroma():
-    # Insert a test embedding
-    collection.add(
-        documents=["Example resume text"],
-        embeddings=[[0.1]*768],  # Dummy embedding of length 768
-        ids=["example_1"]
-    )
-    return {"status": "Added test embedding"}
+# Health check/test route
+@app.get("/test")
+def test_route():
+    return {"message": "API is working"}
+
+# Mount the process router
+app.include_router(process.router, prefix="/api")

@@ -5,3 +5,14 @@ chromadb
 python-multipart
 pdfplumber
 sentence-transformers
+langchain
+pymupdf
+huggingface-hub
+transformers
+ollama
+pydantic
+langchain-community
+langchain-ollama
+langchain-huggingface
+fuzzywuzzy[speedup]
+spacy

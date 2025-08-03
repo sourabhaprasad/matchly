@@ -28,7 +28,8 @@ export default function HomePage() {
       {/* Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-6 py-6">
         {/* LEFT: Inputs wrapped in one card */}
-        <div className="bg-white rounded-xl p-6 shadow-sm space-y-4 border">
+        {/* className="bg-white rounded-xl p-6 shadow-sm space-y-4 border" */}
+        <div className="space-y-4">
           <ResumeUploader />
           <JobDetailsForm />
           <JobDescriptionInput />

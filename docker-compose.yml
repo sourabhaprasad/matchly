@@ -16,6 +16,9 @@ services:
     environment:
       - CHROMA_HOST=chromadb
       - CHROMA_PORT=8000
+      - OLLAMA_API_URL=http://host.docker.internal:11434
+    volumes:
+      - ./backend:/app
 
   frontend:
     build:
