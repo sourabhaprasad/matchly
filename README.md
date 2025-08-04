@@ -13,6 +13,8 @@
 - **Styling**: Tailwind CSS, Google Fonts (Geist)
 - **PDF Parsing**: PyMuPDF (via `fitz`)
 - **AI Matching**: (LLM integration planned)
+- **LangChain**: Prompt templating & chaining
+- **Ollama (Mistral)**: Local LLM backend
 
 ---
 
@@ -59,6 +61,9 @@ TailorMyResume/
 - Matching algorithm compares vector similarity between files
 - Cover letter generation (currently mocked, LLM integration pending)
 - REST API exposed at `/api/process` with CORS enabled
+- Tone customization support for cover letter generation (formal, professional, friendly, confident, enthusiastic)
+- Prompt templating and chaining using LangChain
+- Ollama-powered local inference (Mistral model) for fast and private cover letter generation
 
 ### DevOps / Infrastructure
 
@@ -108,21 +113,38 @@ Accepts multipart `FormData` and returns match results and a generated cover let
 
 #### Fields:
 
-| Field             | Type   | Required | Description                               |
-| ----------------- | ------ | -------- | ----------------------------------------- |
-| `resume`          | File   | Yes      | Resume in PDF format                      |
-| `job_description` | String | Yes      | Job description in PDF format             |
-| `job_title`       | String | Optional | Job role title                            |
-| `hiring_manager`  | String | Optional | Hiring manager's name for personalization |
+| Field             | Type   | Required | Description                                                 |
+| ----------------- | ------ | -------- | ----------------------------------------------------------- |
+| `resume`          | File   | Yes      | Resume in PDF format                                        |
+| `job_description` | String | Yes      | Job description in PDF format                               |
+| `job_title`       | String | Optional | Job role title                                              |
+| `hiring_manager`  | String | Optional | Hiring manager's name for personalization                   |
+| `tone`            | String | Optional | Tone of the cover letter (e.g., "professional", "friendly") |
 
 #### Response:
 
 ```json
 {
   "match_score": 0.84,
-  "summary": "The resume closely aligns with key responsibilities...",
+  "matched_skills": ["Python", "Machine Learning", "Data Analysis"],
+  "uunmatched_skills": ["Kubernetes", "AWS Lambda"],
   "cover_letter": "Dear Hiring Manager,\nI am excited to apply for the role of..."
 }
+```
+
+---
+
+## Vector Store: ChromaDB
+
+ChromaDB is used to store and compare semantic embeddings between resumes and job descriptions.
+
+- **Persistence**: Stores vector data locally at `./chroma_db/`
+- **In-Process**: No separate service required; runs with FastAPI
+
+To reset embeddings:
+
+```bash
+rm -rf backend/chroma_db/
 ```
 
 ---
@@ -163,15 +185,14 @@ Accepts multipart `FormData` and returns match results and a generated cover let
 - Common Issues:
 
   - `Cannot find module 'sonner'`
-    ➤ Run: `npm add sonner` inside the frontend directory
+
+    - Run: `npm add sonner` inside the frontend directory
 
   - CORS errors on frontend
-    ➤ Ensure CORS middleware is enabled in `main.py` in FastAPI backend
+    - Ensure CORS middleware is enabled in `main.py` in FastAPI backend
 
 ---
 
 ## Contributors
 
 - **Sourabha Prasad** – [GitHub](https://github.com/sourabhaprasad)
-
----
