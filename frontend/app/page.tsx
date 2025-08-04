@@ -43,14 +43,15 @@ export default function HomePage() {
   };
 
   const handleSubmit = async (e?: React.FormEvent) => {
-    if (e) {
-      e.preventDefault();
+    if (e) e.preventDefault();
+
+    // Validate resume and job description
+    if ((!resumeFile && !resumeText.trim()) || !jdText.trim()) {
+      toast.error("Please provide both resume and job description.");
+      return;
     }
 
-    const toastId = toast.loading("Analyzing your resume...", {
-      duration: 10000, // Prevents toast from hanging forever
-    });
-
+    const toastId = toast.loading("Analyzing your resume...");
     setIsLoading(true);
     setResult(null);
 
@@ -72,7 +73,6 @@ export default function HomePage() {
         error?.message || "Something went wrong while analyzing your resume.";
       toast.error(message, { id: toastId });
     } finally {
-      toast.dismiss(toastId);
       setIsLoading(false);
     }
   };
@@ -94,7 +94,7 @@ export default function HomePage() {
   }
   return (
     <main className="min-h-screen bg-muted text-sm relative">
-      <Toaster richColors position="bottom-center" />
+      <Toaster richColors position="bottom-right" />
       <nav className="bg-white px-6 py-4 shadow-sm border-b flex items-center gap-2">
         <img src="/logo.png" alt="Matchly Logo" width={24} height={24} />
         <h1 className="text-xl font-bold">Matchly</h1>

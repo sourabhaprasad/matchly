@@ -10,10 +10,15 @@ import jsPDF from "jspdf";
 
 interface CoverLetterOutputProps {
   text: string;
+  setText?: (text: string) => void; // Optional if you want to lift state
 }
 
-export default function CoverLetterOutput({ text }: CoverLetterOutputProps) {
+export default function CoverLetterOutput({
+  text: initialText,
+  setText,
+}: CoverLetterOutputProps) {
   const [copied, setCopied] = useState(false);
+  const [text, updateText] = useState(initialText || "");
 
   const isEmpty = text.trim() === "";
 
@@ -24,23 +29,16 @@ export default function CoverLetterOutput({ text }: CoverLetterOutputProps) {
       toast.success("Copied to clipboard!");
       setTimeout(() => setCopied(false), 1500);
     } catch (err) {
-      console.error("Copy failed", err);
       toast.error("Failed to copy");
     }
   };
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    const marginLeft = 20;
-    const marginTop = 20;
-    const maxLineWidth = 170;
-
     doc.setFont("Times", "Normal");
     doc.setFontSize(12);
-
-    const lines = doc.splitTextToSize(text, maxLineWidth);
-    doc.text(lines, marginLeft, marginTop);
-
+    const lines = doc.splitTextToSize(text, 170);
+    doc.text(lines, 20, 20);
     doc.save("cover_letter.pdf");
   };
 
@@ -64,7 +62,14 @@ export default function CoverLetterOutput({ text }: CoverLetterOutputProps) {
           </div>
         ) : (
           <>
-            <Textarea value={text} readOnly className="min-h-[200px]" />
+            <Textarea
+              value={text}
+              onChange={(e) => {
+                updateText(e.target.value);
+                setText?.(e.target.value);
+              }}
+              className="min-h-[200px]"
+            />
             <div className="flex gap-2 justify-end">
               <Button onClick={handleCopy} variant="secondary">
                 {copied ? <Check className="h-4 w-4 mr-1" /> : null}

@@ -1,7 +1,6 @@
 // components/EmptyState.tsx
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 
 export default function EmptyState() {
@@ -20,15 +19,15 @@ export default function EmptyState() {
         </p>
         <ul className="space-y-1 text-sm text-gray-500 mb-6">
           <li>
-            <span className="font-medium text-indigo-900 mr-1">1.</span>
-            Upload resume or paste content
+            <span className="font-medium text-indigo-900 mr-1">1.</span> Upload
+            resume or paste content
           </li>
           <li>
-            <span className="font-medium text-indigo-900 mr-1">2.</span>
-            Enter company and job details
+            <span className="font-medium text-indigo-900 mr-1">2.</span> Enter
+            company and job details
           </li>
           <li>
-            <span className="font-medium text-indigo-900 mr-1">3.</span>
+            <span className="font-medium text-indigo-900 mr-1">3.</span>{" "}
             Generate your cover letter
           </li>
         </ul>

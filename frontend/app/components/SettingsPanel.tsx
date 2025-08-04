@@ -30,7 +30,7 @@ export default function SettingsPanel({
   settings,
   onToggle,
   onToneChange,
-}: SettingsPanelProps) {
+}: Readonly<SettingsPanelProps>) {
   return (
     <Card>
       <CardContent className="space-y-6 p-4 border-none">

@@ -1,7 +1,11 @@
 import { XCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-export default function UnmatchedSkills({ skills }: { skills: string[] }) {
+interface UnmatchedSkillsProps {
+  skills: readonly string[];
+}
+
+export default function UnmatchedSkills({ skills }: UnmatchedSkillsProps) {
   return (
     <div className="p-4 border rounded-lg space-y-3 max-w-full">
       <div className="flex items-center gap-2">
@@ -13,7 +17,7 @@ export default function UnmatchedSkills({ skills }: { skills: string[] }) {
         {skills.map((skill) => (
           <Badge
             key={skill}
-            className="bg-red-100 text-red-700 text-xs font-medium px-3 py-1 rounded-xl break-words whitespace-normal leading-snug max-w-[12rem] text-left"
+            className="bg-red-100 text-red-700 text-[10px] font-extralight px-3 py-1 rounded-xl break-words whitespace-normal leading-snug max-w-[12rem] text-left"
           >
             {skill}
           </Badge>

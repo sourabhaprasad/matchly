@@ -12,8 +12,8 @@ interface JobDetails {
 }
 
 interface JobDetailsFormProps {
-  details: JobDetails;
-  setDetails: Dispatch<SetStateAction<JobDetails>>;
+  readonly details: JobDetails;
+  readonly setDetails: Dispatch<SetStateAction<JobDetails>>;
 }
 
 export default function JobDetailsForm({

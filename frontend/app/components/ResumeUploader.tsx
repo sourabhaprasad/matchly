@@ -8,10 +8,10 @@ import { Upload, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ResumeUploaderProps {
-  file: File | null;
-  setFile: (f: File | null) => void;
-  text: string;
-  setText: (t: string) => void;
+  readonly file: File | null;
+  readonly setFile: (f: File | null) => void;
+  readonly text: string;
+  readonly setText: (t: string) => void;
 }
 
 export default function ResumeUploader({
@@ -60,7 +60,8 @@ export default function ResumeUploader({
 
   const handleSubmit = async () => {
     setLoading(true);
-    await new Promise((res) => setTimeout(res, 2000));
+    setSubmitted(false);
+    await new Promise((res) => setTimeout(res, 2000)); // simulate delay
     setLoading(false);
     setSubmitted(true);
   };
@@ -123,7 +124,16 @@ export default function ResumeUploader({
         />
       )}
 
-      <div className="flex justify-end">
+      <div className="flex justify-between items-center mt-2">
+        <div className="min-h-[20px]">
+          {submitted ? (
+            <p className="text-green-600 text-sm font-medium">
+              Resume submitted successfully!
+            </p>
+          ) : (
+            <p className="invisible text-sm">placeholder</p>
+          )}
+        </div>
         <Button onClick={handleSubmit} disabled={!isValid || loading}>
           {loading ? (
             <>
@@ -135,12 +145,6 @@ export default function ResumeUploader({
           )}
         </Button>
       </div>
-
-      {submitted && (
-        <p className="text-green-600 text-sm font-medium">
-          Resume submitted successfully!
-        </p>
-      )}
     </div>
   );
 }

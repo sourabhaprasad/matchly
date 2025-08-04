@@ -8,10 +8,10 @@ import SkillGapSuggestions from "./SkillGapSuggestions";
 import { BarChart2 } from "lucide-react";
 
 interface SkillsMatchPanelProps {
-  matchPercentage: number;
-  matchedSkills: string[];
-  unmatchedSkills: string[];
-  suggestedSkills: string[];
+  readonly matchPercentage: number;
+  readonly matchedSkills: readonly string[];
+  readonly unmatchedSkills: readonly string[];
+  readonly suggestedSkills: readonly string[];
 }
 
 export default function SkillsMatchPanel({

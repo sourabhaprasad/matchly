@@ -14,21 +14,23 @@ export default function SkillScore({ matchPercentage }: SkillScoreProps) {
   if (matchPercentage >= 80) {
     badgeLabel = "Excellent Match";
     badgeClass = "bg-green-100 text-green-800";
-    summaryText = "Your resume strongly aligns with the job requirements.";
+    summaryText =
+      "Your resume demonstrates a strong alignment with the job's required skills.";
   } else if (matchPercentage >= 60) {
     badgeLabel = "Good Match";
     badgeClass = "bg-yellow-100 text-yellow-800";
-    summaryText = "Your resume aligns with several key job requirements.";
+    summaryText =
+      "Your resume meets many of the key skill requirements for this role.";
   } else if (matchPercentage >= 40) {
     badgeLabel = "Moderate Match";
     badgeClass = "bg-orange-100 text-orange-800";
     summaryText =
-      "Your resume has partial alignment with the job requirements.";
+      "Your resume reflects some overlap with the required skills, but may benefit from further alignment.";
   } else {
     badgeLabel = "Low Match";
     badgeClass = "bg-red-100 text-red-800";
     summaryText =
-      "Your resume shows limited alignment with the job requirements.";
+      "Your resume shows limited overlap with the required skills for this position.";
   }
 
   return (

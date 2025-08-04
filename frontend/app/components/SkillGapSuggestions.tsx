@@ -1,7 +1,13 @@
 import { Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-export default function SkillGapSuggestions({ skills }: { skills: string[] }) {
+type SkillGapSuggestionsProps = {
+  readonly skills: readonly string[];
+};
+
+export default function SkillGapSuggestions({
+  skills,
+}: SkillGapSuggestionsProps) {
   return (
     <div className="p-4 border rounded-lg space-y-3 max-w-full">
       <div className="flex items-center gap-2">
@@ -16,7 +22,7 @@ export default function SkillGapSuggestions({ skills }: { skills: string[] }) {
         {skills.map((skill) => (
           <Badge
             key={skill}
-            className="bg-orange-100 text-orange-700 text-xs font-medium px-3 py-1 rounded-xl break-words whitespace-normal leading-snug max-w-[12rem] text-left"
+            className="bg-orange-100 text-orange-700 text-[10px] font-extralight px-3 py-1 rounded-xl break-words whitespace-normal leading-snug max-w-[12rem] text-left"
           >
             {skill}
           </Badge>

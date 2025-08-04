@@ -1,7 +1,11 @@
 import { CheckCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-export default function MatchedSkills({ skills }: { skills: string[] }) {
+interface MatchedSkillsProps {
+  skills: readonly string[];
+}
+
+export default function MatchedSkills({ skills }: MatchedSkillsProps) {
   return (
     <div className="p-4 border rounded-lg space-y-3 max-w-full">
       <div className="flex items-center gap-2">
@@ -13,7 +17,7 @@ export default function MatchedSkills({ skills }: { skills: string[] }) {
         {skills.map((skill) => (
           <Badge
             key={skill}
-            className="bg-green-100 text-green-700 text-xs font-medium px-3 py-1 rounded-xl break-words whitespace-normal leading-snug max-w-[12rem] text-left"
+            className="bg-green-100 text-green-700 text-[10px] font-extralight px-3 py-1 rounded-xl break-words whitespace-normal leading-snug max-w-[12rem] text-left"
           >
             {skill}
           </Badge>
