@@ -20,7 +20,7 @@
 ## Project Structure
 
 ```
-TailorMyResume/
+Matchly/
 ├── frontend/           # Next.js frontend app
 │   ├── app/            # App router and layout logic
 │   ├── components/     # UI components (ResumeUploader, JDInput, etc.)
