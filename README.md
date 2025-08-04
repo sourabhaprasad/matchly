@@ -167,7 +167,12 @@ rm -rf backend/chroma_db/
 
 ## UI Preview
 
-<!-- TODO--- -->
+
+
+https://github.com/user-attachments/assets/8941c4bb-bb57-41bc-a3ef-34c4bd0d1ad2
+
+
+
 
 ## Development Tips
 
