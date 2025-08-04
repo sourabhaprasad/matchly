@@ -12,7 +12,6 @@
 - **Containerization**: Docker & Docker Compose
 - **Styling**: Tailwind CSS, Google Fonts (Geist)
 - **PDF Parsing**: PyMuPDF (via `fitz`)
-- **AI Matching**: (LLM integration planned)
 - **LangChain**: Prompt templating & chaining
 - **Ollama (Mistral)**: Local LLM backend
 
@@ -50,9 +49,10 @@ TailorMyResume/
 
 - File upload interface for resumes and job descriptions
 - Input fields for job title and hiring manager name
-- Handles `FormData` submission to FastAPI backend
+- Editable text area for the generated cover letter
+- Copy to clipboard and download as PDF functionality for the cover letter
+- Handles FormData submission to FastAPI backend
 - Responsive UI built with Tailwind CSS and shadcn/ui components
-- Notifications via `sonner`, layout components (`Card`, `Separator`)
 
 ### Backend
 
@@ -74,36 +74,38 @@ TailorMyResume/
 
 ---
 
-## Getting Started
+# Getting Started
 
-### 1. Clone the Repository
+This project uses Docker Compose to run the full stack:
+Next.js frontend + FastAPI backend + ChromaDB vector store.
+
+## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/sourabhaprasad/TailorMyResume.git
-cd Matchly
+cd TailorMyResume
 ```
 
-### 2. Install Frontend Dependencies
-
-```bash
-cd frontend
-npm install   # or yarn
-```
-
-### 3. Run the Entire Stack with Docker Compose
+## 2. Run the Full Stack with Docker Compose
 
 ```bash
 docker-compose up --build
 ```
 
-- Frontend: [http://localhost:3000](http://localhost:3000)
-- Backend: [http://localhost:8001](http://localhost:8001)
-- ChromaDB: [http://localhost:8000](http://localhost:8000)
+This will:
 
-> Ensure Docker is running on your system. If you face issues, verify Docker daemon with:
-> `docker info` or `sudo systemctl start docker` (on Linux)
+- Serve the Next.js frontend on http://localhost:3000
+- Start the FastAPI backend on http://localhost:8001
+- Launch the ChromaDB vector database
 
----
+### Rebuilding After Changes
+
+If you modify code or dependencies:
+
+```bash
+docker-compose down
+docker-compose up --build
+```
 
 ## API Endpoint
 
