@@ -56,14 +56,19 @@ Matchly/
 
 ### Backend
 
-- Resume and JD parsing with PyMuPDF (`fitz`)
-- Embedding logic for semantic similarity scoring
-- Matching algorithm compares vector similarity between files
-- Cover letter generation (currently mocked, LLM integration pending)
-- REST API exposed at `/api/process` with CORS enabled
-- Tone customization support for cover letter generation (formal, professional, friendly, confident, enthusiastic)
-- Prompt templating and chaining using LangChain
-- Ollama-powered local inference (Mistral model) for fast and private cover letter generation
+- Resume and JD parsing with PyMuPDF (fitz)
+- Embedding and similarity scoring using ChromaDB
+- Cover letter generation via LangChain-prompted Mistral LLM (local via Ollama)
+- Supports RAG, prompt chaining, tone control, and personalized output
+- REST API exposed at /api/process with CORS enabled
+
+### LLM Capabilities & Generative AI Integration
+
+- Local LLM Inference: Integrated [Mistral](https://ollama.com/library/mistral) via Ollama for fast, private, and offline cover letter generation.
+- LangChain Prompt Chaining: Modular prompt templates and chaining logic enable role-specific, tone-adjustable letters.
+- RAG Workflow with ChromaDB: Combines resume and job description context via a Retrieval-Augmented Generation (RAG) setup, using ChromaDB for fast vector similarity search.
+- Semantic Personalization: Prompts adapt based on parsed resume, job title, and hiring manager details for contextual generation.
+- Editable AI Output: LLM-generated cover letters are editable in the UI to allow manual refinement and customization.
 
 ### DevOps / Infrastructure
 
@@ -167,12 +172,7 @@ rm -rf backend/chroma_db/
 
 ## UI Preview
 
-
-
 https://github.com/user-attachments/assets/8941c4bb-bb57-41bc-a3ef-34c4bd0d1ad2
-
-
-
 
 ## Development Tips
 
