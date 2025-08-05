@@ -18,5 +18,5 @@ def embed_text(text: str, namespace: str):
         db.persist()
         return len(chunks)
     except ValueError as e:
-        print(f"❌ Error during embedding: {e}")
+        print(f"Error during embedding: {e}")
         raise ValueError("Embedding failed. Possibly due to empty or malformed embeddings.")
