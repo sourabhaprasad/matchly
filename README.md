@@ -87,8 +87,8 @@ Next.js frontend + FastAPI backend + ChromaDB vector store.
 ## 1. Clone the Repository
 
 ```bash
-git clone https://github.com/sourabhaprasad/TailorMyResume.git
-cd TailorMyResume
+git clone https://github.com/sourabhaprasad/matchly.git
+cd matchly
 ```
 
 ## 2. Run the Full Stack with Docker Compose
